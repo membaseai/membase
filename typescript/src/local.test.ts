@@ -4,7 +4,7 @@ import { ConfirmationRequiredError, Membase, NotFoundError, UnprocessableEntityE
 
 const base = process.env.MEMBASE_LOCAL_BASE_URL;
 
-describe.skipIf(!base)("@unibaseio/membase against local memory", () => {
+describe.skipIf(!base)("@membaseai/membase against local memory", () => {
   const c = new Membase({ apiKey: "local", baseUrl: base });
 
   it("lists in the memory API's shapes", async () => {

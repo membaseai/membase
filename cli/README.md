@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/membaseai/membase/main/assets/membase-logo.png" width="72" alt="Membase">
 </p>
 
-<h1 align="center">@unibaseio/membase-cli</h1>
+<h1 align="center">@membaseai/membase-cli</h1>
 
 <p align="center">
   <b>One memory. Every AI. Only yours.</b><br>
@@ -18,7 +18,7 @@
 </p>
 
 ```bash
-npm install -g @unibaseio/membase-cli      # or: npx @unibaseio/membase-cli <command>
+npm install -g @membaseai/membase-cli      # or: npx @membaseai/membase-cli <command>
 export MEMBASE_API_KEY="mbk_…"             # Connect › Developer keys in the Membase app
 
 membase add "We picked Postgres for the ledger"
@@ -46,7 +46,7 @@ pip install 'unibaseio-membase[local]'
 ```
 
 Install one of the two: both put a `membase` command on your PATH. For code, use the SDK
-[@unibaseio/membase](https://www.npmjs.com/package/@unibaseio/membase).
+[@membaseai/membase](https://www.npmjs.com/package/@membaseai/membase).
 
 ## License
 

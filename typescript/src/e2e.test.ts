@@ -6,7 +6,7 @@ import { Membase, PermissionDeniedError, NotFoundError } from "./index.js";
 const base = process.env.MEMBASE_TEST_BASE_URL!;
 const key = process.env.MEMBASE_TEST_KEY!;
 
-describe("@unibaseio/membase against a live server", () => {
+describe("@membaseai/membase against a live server", () => {
   const c = new Membase({ apiKey: key, baseUrl: base });
 
   it("names what it may do", async () => {

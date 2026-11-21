@@ -1,6 +1,6 @@
 /** The CLI against a recording client: argument parsing, the calls it makes, exit codes. */
 import { describe, expect, it } from "vitest";
-import { ConfirmationRequiredError, NotFoundError, type MembaseOptions } from "@unibaseio/membase";
+import { ConfirmationRequiredError, NotFoundError, type MembaseOptions } from "@membaseai/membase";
 import { main, VERSION, type Io } from "./run.js";
 
 function harness(opts: { files?: Record<string, string>; fail?: Error; noKey?: boolean } = {}) {

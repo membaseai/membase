@@ -1,5 +1,14 @@
 # Changelog
 
+## npm packages move to the @membaseai scope
+
+`@membaseai/membase` 0.4.0, `@membaseai/membase-cli` 0.4.0 and `@membaseai/membase-ai-sdk` 0.1.0
+are the same code as their `@unibaseio/*` releases under the new organization's npm scope. The
+`@unibaseio/*` packages stay installable and are marked deprecated, pointing here. Update an
+import or install with `npm install @membaseai/membase` (or `-cli`, `-ai-sdk`). The OpenClaw
+plugin is published on ClawHub, not npm, and keeps its name. The PyPI packages
+(`unibaseio-membase*`) are unchanged.
+
 ## Dify plugin unibase/membase 0.1.1
 
 Listing text only, no code changes: a new Marketplace description in English, Chinese and

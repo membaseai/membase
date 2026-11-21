@@ -1,6 +1,6 @@
 # Membase for the Vercel AI SDK
 
-`@unibaseio/membase-ai-sdk` gives an [AI SDK](https://ai-sdk.dev) agent your
+`@membaseai/membase-ai-sdk` gives an [AI SDK](https://ai-sdk.dev) agent your
 [Membase](https://membase.com) account as its long-term memory, as three tools:
 
 | Tool | What it does |
@@ -16,7 +16,7 @@ There is no delete or forget tool. Removing memory stays in the Membase app.
 Works with AI SDK 6 and 7, with any model provider.
 
 ```bash
-npm install @unibaseio/membase-ai-sdk ai zod
+npm install @membaseai/membase-ai-sdk ai zod
 export MEMBASE_API_KEY="mbk_…"     # Connect › Developer keys in the Membase app
 ```
 
@@ -28,7 +28,7 @@ A **Read** key can search and, with Profile ticked, read the profile. Saving nee
 ```ts
 import { ToolLoopAgent } from "ai";
 import { openai } from "@ai-sdk/openai";
-import { membaseTools } from "@unibaseio/membase-ai-sdk";
+import { membaseTools } from "@membaseai/membase-ai-sdk";
 
 const agent = new ToolLoopAgent({
   model: openai("gpt-5"),
@@ -56,7 +56,7 @@ request handler with that person's key, so each request reads and writes their m
 tools: membaseTools({ apiKey: keyFor(userId) });
 ```
 
-`membaseTools` also takes a ready client (`{ client: new Membase(...) }` from `@unibaseio/membase`),
+`membaseTools` also takes a ready client (`{ client: new Membase(...) }` from `@membaseai/membase`),
 and the client's own options (`baseUrl`, `timeoutMs`, `maxRetries`, `fetch`).
 
 ## Errors and latency

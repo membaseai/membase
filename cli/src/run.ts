@@ -3,7 +3,7 @@
 import { readFileSync } from "node:fs";
 import { basename, extname } from "node:path";
 import { parseArgs } from "node:util";
-import { ConfirmationRequiredError, Membase, MembaseError, type MembaseOptions } from "@unibaseio/membase";
+import { ConfirmationRequiredError, Membase, MembaseError, type MembaseOptions } from "@membaseai/membase";
 
 export const VERSION = "0.4.0";
 
