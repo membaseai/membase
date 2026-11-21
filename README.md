@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="https://pypi.org/project/unibaseio-membase/"><img src="https://img.shields.io/pypi/v/unibaseio-membase?label=pypi" alt="PyPI"></a>
-  <a href="https://www.npmjs.com/package/@unibaseio/membase"><img src="https://img.shields.io/npm/v/@unibaseio/membase?label=npm" alt="npm"></a>
+  <a href="https://www.npmjs.com/package/@membaseai/membase"><img src="https://img.shields.io/npm/v/@membaseai/membase?label=npm" alt="npm"></a>
   <a href="https://github.com/membaseai/membase/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
 </p>
 
@@ -68,8 +68,8 @@ history on LoCoMo and 11× fewer on LongMemEval_S. Method and results: [membase.
 pip install unibaseio-membase              # hosted · Python 3.10+ · needs MEMBASE_API_KEY
 pip install 'unibaseio-membase[local]'     # local  · Python 3.12 or 3.13 · needs OPENAI_API_KEY
 pip install 'unibaseio-membase[media]'     # local + photos, videos and audio
-npm install @unibaseio/membase              # TypeScript · Node 18+
-npm install -g @unibaseio/membase-cli       # the `membase` command (hosted) without Python
+npm install @membaseai/membase              # TypeScript · Node 18+
+npm install -g @membaseai/membase-cli       # the `membase` command (hosted) without Python
 ```
 
 ```python

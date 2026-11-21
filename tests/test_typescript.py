@@ -1,5 +1,5 @@
 """The npm packages against `membase serve`: the client's src/local.test.ts, and the built
-`membase` command of @unibaseio/membase-cli."""
+`membase` command of @membaseai/membase-cli."""
 
 from __future__ import annotations
 

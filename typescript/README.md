@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/membaseai/membase/main/assets/membase-logo.png" width="72" alt="Membase">
 </p>
 
-<h1 align="center">@unibaseio/membase</h1>
+<h1 align="center">@membaseai/membase</h1>
 
 <p align="center">
   <b>One memory. Every AI. Only yours.</b><br>
@@ -20,12 +20,12 @@
 Memory hosted in your Membase account, or local through the Python package.
 
 ```bash
-npm install @unibaseio/membase
+npm install @membaseai/membase
 export MEMBASE_API_KEY="mbk_…"     # Connect › Developer keys in the Membase app
 ```
 
 ```ts
-import { Membase } from "@unibaseio/membase";
+import { Membase } from "@membaseai/membase";
 
 const client = new Membase();
 
@@ -75,4 +75,4 @@ A store with several Memories writes where `MEMBASE_WRITE_TARGET` (set for the s
 If the server runs with `MEMBASE_LOCAL_TOKEN`, pass that token as `apiKey`.
 
 `membase-ai` and `membase-sdk` on npm are earlier names of this package. The `membase` command
-without Python is `@unibaseio/membase-cli`.
+without Python is `@membaseai/membase-cli`.

@@ -1,6 +1,6 @@
 import { generateText, isStepCount } from "ai";
 import { MockLanguageModelV4 } from "ai/test";
-import { Membase } from "@unibaseio/membase";
+import { Membase } from "@membaseai/membase";
 import { describe, expect, it } from "vitest";
 import { membaseTools } from "./index.js";
 

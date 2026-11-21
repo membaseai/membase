@@ -1,5 +1,5 @@
 {
-  "name": "@unibaseio/membase-ai-sdk",
+  "name": "@membaseai/membase-ai-sdk",
   "version": "0.1.0",
   "description": "Membase memory for the Vercel AI SDK: search, save and profile tools over the user's Membase account.",
   "license": "MIT",
@@ -42,7 +42,7 @@
   ],
   "homepage": "https://membase.com",
   "dependencies": {
-    "@unibaseio/membase": "^0.4.0"
+    "@membaseai/membase": "^0.4.0"
   },
   "peerDependencies": {
     "ai": "^6.0.0 || ^7.0.0",

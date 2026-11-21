@@ -1,7 +1,7 @@
 /** Membase memory for the Vercel AI SDK: the membase_search, membase_save and membase_profile tools. */
 import { tool, type Tool } from "ai";
 import { z } from "zod";
-import { Membase, type MembaseOptions, type Page, type ProfileFact, type Receipt, type SearchResult } from "@unibaseio/membase";
+import { Membase, type MembaseOptions, type Page, type ProfileFact, type Receipt, type SearchResult } from "@membaseai/membase";
 
 export interface MembaseToolsOptions extends MembaseOptions {
   /** A ready client. Otherwise one is built from the other options; `apiKey` defaults to `MEMBASE_API_KEY`. */

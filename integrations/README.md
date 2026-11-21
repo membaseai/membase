@@ -6,7 +6,7 @@ package, tests and README.
 | Folder | Framework | Package | Install |
 |---|---|---|---|
 | [`agent-framework/`](agent-framework) | Microsoft Agent Framework (Python) | `agent-framework-membase` on PyPI | `pip install agent-framework-membase` |
-| [`ai-sdk/`](ai-sdk) | Vercel AI SDK (TypeScript) | `@unibaseio/membase-ai-sdk` on npm | `npm install @unibaseio/membase-ai-sdk` |
+| [`ai-sdk/`](ai-sdk) | Vercel AI SDK (TypeScript) | `@membaseai/membase-ai-sdk` on npm | `npm install @membaseai/membase-ai-sdk` |
 | [`chatgpt/`](chatgpt) | ChatGPT (read-only, OAuth) | Agent Plugins package | Upload the ZIP at platform.openai.com/plugins (see its README) |
 | [`dify/`](dify) | Dify | Dify plugin `unibase/membase` | Dify › Plugins › Marketplace, search Membase (once listed) |
 | [`google-adk/`](google-adk) | Google ADK (Python) | `membase-google-adk` on PyPI | `pip install membase-google-adk` |
@@ -18,7 +18,7 @@ package, tests and README.
 
 ## What every integration does the same way
 
-- Uses the official Membase SDK (`unibaseio-membase` / `@unibaseio/membase`); a key comes from
+- Uses the official Membase SDK (`unibaseio-membase` / `@membaseai/membase`); a key comes from
   **Connect › Developer keys** in the Membase app.
 - **One key is one person's memory.** Where the framework passes a user id, a `client_for`
   hook gives each person their own key (or their own local directory); otherwise the
