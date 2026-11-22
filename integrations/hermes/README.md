@@ -7,8 +7,9 @@ Hermes:
 - **recalls before each turn**: a search of the user's Membase Memories with a short time budget
   (8 s by default). The passages are injected as context, each tagged with the Memory it came
   from (`- [Project decisions] We settled on Postgres for the ledger.`). If the search is slow or
-  fails, the turn goes on without memory;
-- **gets three tools**: `membase_search`, `membase_save` and `membase_profile`;
+  fails, the turn goes on without memory. When the key reaches a media Memory, the same recall
+  searches its photos and videos and hands the agent what each matching one shows or says, as text;
+- **gets four tools**: `membase_search`, `membase_search_media`, `membase_save` and `membase_profile`;
 - **saves only when asked**: the model calls `membase_save` when the user asks it to remember
   something. Capturing the user's words from every turn is a setting you turn on yourself
   (`capture_turns`, off by default).
@@ -76,11 +77,22 @@ model, dormant), the block says it was not searched. A missing passage from that
 A `403` (key narrowed or revoked) stops automatic recall for the rest of the session instead of
 retrying every turn.
 
+**Photos and videos.** The first recall with a key asks `GET /v1/capabilities` whether the key
+reaches a media Memory (and may search it); the answer is kept for that key, so a key that reaches
+none never pays for a media search, and a new key is asked again. When it does, each recall also
+sends the message to `POST /v1/media/search`, beside the passage search and within the same budget,
+and the block lists the matching items: the Memory, `photo` or `video`, the file name and the
+item's `med_` id, the moments that matched (time, speaker, words) and the item's one-sentence
+summary (`- [Trip] video lisbon.mp4 (id med_…) (0:57-0:59, the old man: "It's not safe here") — an
+old man on a tram…`). The id is what `GET /v1/media/{id}` reads, so a host can show the item.
+The agent gets descriptions, never the files. This runs with `tools: off` too.
+
 **Tools.** Explicit calls use the SDK's default timeout (90 s), so they can wait out a cold start.
 
 | Tool | Does |
 |---|---|
 | `membase_search(query, limit?)` | Passages from every Memory in reach, each naming its Memory. Memories that could not answer are listed under `unavailable`. |
+| `membase_search_media(query, kind?, limit?)` | Photos and videos in the media Memories in reach, matching what was seen or said, each with its `id` (`med_…`), Memory, file name, summary and matched moments. `kind` is `image` or `video`. |
 | `membase_save(content)` | Saves a note to the key's write target. The answer carries the note's `id` (`doc_…`) and its learning `status`: usually `processing` or `pending`, so the Memory learns it on its next run and it is searchable after that. |
 | `membase_profile()` | The user's profile facts: standing statements about who they are, newest first. Works only when the key's owner ticked **Your profile**. |
 
@@ -140,7 +152,8 @@ The only network peer is the Membase API (`https://api.app.membase.com`, or `MEM
 The plugin sends:
 
 - each non-trivial user message, as a recall query;
-- `membase_search`, `membase_save` and `membase_profile` calls;
+- with a key that reaches a media Memory, the same message as a photo and video query;
+- `membase_search`, `membase_search_media`, `membase_save` and `membase_profile` calls;
 - the user's own words from each completed turn, only when `capture_turns` is on (never the
   assistant's reply).
 
@@ -153,7 +166,7 @@ runs no shell command, sends no telemetry and has no self-update code.
 cd hermes
 git clone --depth 1 https://github.com/NousResearch/hermes-agent .cache/hermes-agent
 uv venv --python 3.14 .venv
-uv pip install --python .venv/bin/python -e .cache/hermes-agent "membase-ai>=0.4.0,<0.5" pytest
+uv pip install --python .venv/bin/python -e .cache/hermes-agent "membase-ai>=0.4.1,<0.5" pytest
 .venv/bin/python -m pytest -q                                   # offline
 .venv/bin/hermes plugins validate . --install-deps              # the catalog CI gate (run on a clean checkout)
 MEMBASE_API_KEY=mbk_... .venv/bin/python examples/live_smoke.py   # real API, read-only (--write saves one note)

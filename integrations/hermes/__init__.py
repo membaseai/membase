@@ -9,8 +9,11 @@ Hermes profile to it:
   up to a minute while the account's memory wakes. Every passage names the Memory it came from.
   ``recall_mode: fast`` (or MEMBASE_RECALL_MODE=fast) asks for one round of retrieval and no
   model call, and hands the agent more passages (at least 10, 8000 chars) to judge itself.
-- Tools: membase_search, membase_save (only when the user asks; into the key's write target),
-  membase_profile. ``tools: off`` (or MEMBASE_TOOLS=off) offers none, leaving memory to prefetch
+- Photos and videos: when the key reaches a media Memory (``GET /v1/capabilities``, asked once per
+  key), prefetch also searches them and hands the agent what each matching item shows or says, as
+  text. A key that reaches none costs no media search.
+- Tools: membase_search, membase_search_media, membase_save (only when the user asks; into the key's
+  write target), membase_profile. ``tools: off`` (or MEMBASE_TOOLS=off) offers none, leaving memory to prefetch
   and to Hermes's own memory: no turn spends a model call deciding whether to search or save.
 - The user's profile: with Hermes's ``memory.user_store: provider`` (a Hermes build that has it),
   facts about the user that Hermes's own memory tool records go to the Membase profile through
@@ -52,7 +55,7 @@ except ImportError:  # pragma: no cover - exercised only before the dependency i
 
 logger = logging.getLogger(__name__)
 
-PLUGIN_VERSION = "0.3.0"
+PLUGIN_VERSION = "0.4.0"
 CONFIG_FILE = "unibaseio-membase.json"
 KEY_URL = "https://app.membase.com"  # Connect > Developer keys
 # The plugin's own default: it does not depend on which SDK release is installed.
@@ -93,6 +96,26 @@ SEARCH_SCHEMA = {
         "properties": {
             "query": {"type": "string", "description": "The question, in natural language."},
             "limit": {"type": "integer", "description": "Passages to return in all, 1-50."},
+        },
+        "required": ["query"],
+    },
+}
+
+SEARCH_MEDIA_SCHEMA = {
+    "name": "membase_search_media",
+    "description": (
+        "Search the photos and videos in the user's media Memories in Membase by what was seen or said in them, "
+        "best first. Each result names its Memory and file, says what it shows in one sentence and, for a video, "
+        "the moments that matched (time, speaker, words). You get descriptions, not the files. Use it when the "
+        "user asks about their pictures or videos; it finds nothing for a key that reaches no media Memory. "
+        "Each result's `id` (`med_…`) names the item."
+    ),
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "query": {"type": "string", "description": "What was seen or said, in any language."},
+            "kind": {"type": "string", "enum": ["image", "video"], "description": "Only photos, or only videos."},
+            "limit": {"type": "integer", "description": "Items to return, 1-50."},
         },
         "required": ["query"],
     },
@@ -261,6 +284,70 @@ def format_recall(response: dict[str, Any], *, limit: int, max_chars: int) -> tu
     return "\n".join(out), len(lines)
 
 
+def _clock(seconds: Any) -> str:
+    try:
+        total = int(float(seconds))
+    except (TypeError, ValueError):
+        return ""
+    return f"{total // 60}:{total % 60:02d}"
+
+
+def _moment(m: dict[str, Any]) -> dict[str, Any]:
+    """A matched moment as the agent reads it: when, who, what."""
+    out: dict[str, Any] = {"at": _clock(m.get("t"))}
+    if m.get("end") is not None:
+        out["end"] = _clock(m.get("end"))
+    for key in ("kind", "speaker", "text"):
+        if m.get(key):
+            out[key] = str(m[key])
+    return out
+
+
+def _media_line(item: dict[str, Any]) -> str:
+    kind = {"image": "photo", "video": "video"}.get(str(item.get("kind") or ""), "item")
+    head = f"- [{_memory_label(item)}] {kind} {item.get('filename') or ''}".rstrip()
+    if item.get("id"):
+        # Its `med_` id: what get_media reads, and what a host that shows media is told to name.
+        head += f" (id {item['id']})"
+    said = []
+    for m in item.get("moments") or []:
+        if not isinstance(m, dict) or not m.get("text"):
+            continue
+        mo = _moment(m)
+        when = mo["at"] + (f"-{mo['end']}" if mo.get("end") else "")
+        who = f", {mo['speaker']}" if mo.get("speaker") else ""
+        said.append(f"{when}{who}: \"{_clip(mo['text'], 300)}\"")
+    summary = _clip(str(item.get("summary") or ""), 400)
+    body = "; ".join(said[:3])
+    return head + (f" ({body})" if body else "") + (f" — {summary}" if summary else "")
+
+
+def format_media_recall(response: dict[str, Any], *, limit: int, max_chars: int) -> tuple[str, int]:
+    """The prefetch block for photos and videos (each naming its Memory) and how many it carries."""
+    lines: list[str] = []
+    used = 0
+    for item in (response or {}).get("items") or []:
+        if not isinstance(item, dict):
+            continue
+        line = _media_line(item).replace("\n", " ")
+        if used + len(line) > max_chars and lines:
+            break
+        lines.append(line)
+        used += len(line) + 1
+        if len(lines) >= limit:
+            break
+    unavailable = _unavailable(response)
+    if not lines and not unavailable:
+        return "", 0
+    out = ["## Membase: photos and videos from the user's media Memories (what each shows or says, as text — "
+           "you do not see the files; each names the Memory it came from; use one only where it bears on the "
+           "user's message)"]
+    out += lines or ["No photo or video matched this turn."]
+    if unavailable:
+        out.append("Not searched this turn, so absence of an item proves nothing for: " + "; ".join(unavailable))
+    return "\n".join(out), len(lines)
+
+
 def format_profile(facts: Optional[list[dict[str, Any]]], error: str = "") -> str:
     """The profile block handed to the agent each turn: the user's standing facts as data, newest
     first, within ``_PROFILE_MAX_CHARS``. A profile that could not be read says so — the agent must
@@ -357,6 +444,8 @@ class MembaseMemoryProvider(MemoryProvider):
         self._recall_refused = False
         self._capture_warned = False
         self._profile_turns = False
+        # (the client asked, whether its key reaches a media Memory): asked once per key.
+        self._media_reach: Optional[tuple[Any, bool]] = None
 
     # ---- identity and availability --------------------------------------------------------
 
@@ -372,6 +461,10 @@ class MembaseMemoryProvider(MemoryProvider):
         return bool(_secret("MEMBASE_API_KEY"))
 
     def unavailable_reason(self) -> str:
+        # Two different names on purpose: `membase-ai` is the PyPI distribution (renamed
+        # from `unibaseio-membase` on 2026-11-22), while `unibaseio-membase` is still this
+        # plugin's id in `plugin.yaml` and what `hermes plugins install` takes. Do not
+        # "unify" them until the plugin id is migrated too.
         if Membase is None:
             return "the membase-ai package is not installed; reinstall the plugin (hermes plugins install unibaseio-membase)"
         return (f"MEMBASE_API_KEY is not set for this profile: run `hermes memory setup` and paste a developer key "
@@ -447,6 +540,7 @@ class MembaseMemoryProvider(MemoryProvider):
         self._error = ""
         self._active = False
         self._recall_refused = False
+        self._media_reach = None
         if Membase is None:
             self._error = self.unavailable_reason()
             return
@@ -521,7 +615,8 @@ class MembaseMemoryProvider(MemoryProvider):
                 "the user forgets facts in the Membase app.")
         if self._cfg.get("tools") is not False:
             lines += [
-                "- `membase_search` to look further, `membase_profile` for standing facts about the user.",
+                "- `membase_search` to look further, `membase_search_media` for their photos and videos, "
+                "`membase_profile` for standing facts about the user.",
                 "- `membase_save` only when the user asks you to remember something (or plainly means it), in "
                 "their words. Never save your own answers.",
             ]
@@ -557,13 +652,15 @@ class MembaseMemoryProvider(MemoryProvider):
         _, client = self._clients_now()
         if client is None:
             return ""
-        if not self._profile_turns:
-            return self._recall_block(client, query)
-        # The profile is read beside the search, not after it: one turn's wait, not two.
-        with ThreadPoolExecutor(max_workers=2, thread_name_prefix="membase-prefetch") as pool:
-            profile = pool.submit(self._profile_block, client)
-            recall = pool.submit(self._recall_block, client, query) if search else None
-            blocks = [profile.result(), recall.result() if recall is not None else ""]
+        jobs: list[Callable[[], str]] = []
+        if self._profile_turns:
+            jobs.append(lambda: self._profile_block(client))
+        if search:
+            jobs.append(lambda: self._recall_block(client, query))
+            jobs.append(lambda: self._media_block(client, query))
+        # Read beside each other, not one after another: one turn's wait, not three.
+        with ThreadPoolExecutor(max_workers=len(jobs), thread_name_prefix="membase-prefetch") as pool:
+            blocks = [f.result() for f in [pool.submit(job) for job in jobs]]
         return "\n\n".join(b for b in blocks if b)
 
     def _recall_limit(self) -> int:
@@ -592,7 +689,46 @@ class MembaseMemoryProvider(MemoryProvider):
             logger.info("Membase: Memory %r could not be searched", name)
         block, count = format_recall(response, limit=self._recall_limit(),
                                      max_chars=max(self._cfg["recall_max_chars"], 8000 if fast else 0))
-        self._last_count = count
+        with self._lock:
+            self._last_count += count
+        return block
+
+    def _reaches_media(self, client: Any) -> bool:
+        """Whether this client's key reaches a media Memory and may search it — asked once per key,
+        so a key that reaches none never pays for a media search. An unanswered question (a timeout,
+        no connection, 429) is asked again next turn rather than taken for "no"."""
+        known = self._media_reach
+        if known is not None and known[0] is client:
+            return known[1]
+        try:
+            caps = client.capabilities() or {}
+        except Exception as e:
+            logger.info("Membase media recall skipped this turn: %s",
+                        explain_error(e, timeout=self._cfg["recall_budget_seconds"]))
+            status = getattr(e, "status", None)
+            if isinstance(status, int) and 400 <= status < 500 and status != 429:
+                # An answer, not a miss (a server without the route, a key refused): this key's.
+                self._media_reach = (client, False)
+            return False
+        reaches = "media.search" in (caps.get("actions") or []) and any(
+            isinstance(m, dict) and m.get("kind") == "media" for m in caps.get("memories") or [])
+        self._media_reach = (client, reaches)
+        return reaches
+
+    def _media_block(self, client: Any, query: str) -> str:
+        """Photos and videos on this turn's message, or "" (a key without media, or a failed search)."""
+        if not self._reaches_media(client):
+            return ""
+        try:
+            response = client.media.search(query.strip()[:2000], limit=self._recall_limit())
+        except Exception as e:  # fail open, like the passages
+            logger.info("Membase media recall skipped this turn: %s",
+                        explain_error(e, timeout=self._cfg["recall_budget_seconds"]))
+            return ""
+        block, count = format_media_recall(response, limit=self._recall_limit(),
+                                           max_chars=self._cfg["recall_max_chars"])
+        with self._lock:
+            self._last_count += count
         return block
 
     def _profile_block(self, client: Any) -> str:
@@ -671,11 +807,11 @@ class MembaseMemoryProvider(MemoryProvider):
     def get_tool_schemas(self) -> list[dict[str, Any]]:
         if self._cfg.get("tools") is False:
             return []
-        return [json.loads(json.dumps(s)) for s in (SEARCH_SCHEMA, SAVE_SCHEMA, PROFILE_SCHEMA)]
+        return [json.loads(json.dumps(s)) for s in (SEARCH_SCHEMA, SEARCH_MEDIA_SCHEMA, SAVE_SCHEMA, PROFILE_SCHEMA)]
 
     def handle_tool_call(self, tool_name: str, args: dict[str, Any], **kwargs: Any) -> str:
-        handlers = {"membase_search": self._tool_search, "membase_save": self._tool_save,
-                    "membase_profile": self._tool_profile}
+        handlers = {"membase_search": self._tool_search, "membase_search_media": self._tool_search_media,
+                    "membase_save": self._tool_save, "membase_profile": self._tool_profile}
         handler = handlers.get(tool_name)
         if handler is None:
             return _tool_error(f"unknown tool {tool_name}")
@@ -705,6 +841,35 @@ class MembaseMemoryProvider(MemoryProvider):
         if unavailable:
             out["unavailable"] = [{"memory": name} for name in unavailable]
             out["note"] = "These Memories could not be searched, so missing passages from them prove nothing."
+        return out
+
+    def _tool_search_media(self, client: Any, args: dict[str, Any]) -> dict[str, Any]:
+        query = str(args.get("query") or "").strip()
+        if not query:
+            raise ValueError("query is required")
+        kind = args.get("kind") or None
+        if kind not in (None, "image", "video"):
+            raise ValueError("kind is image or video")
+        limit = args.get("limit")
+        limit = None if limit in (None, "") else _as_number(limit, 12, 1, 50, int)
+        response = client.media.search(query, kind=kind, limit=limit) or {}
+        results = []
+        for r in response.get("items") or []:
+            if not isinstance(r, dict):
+                continue
+            item: dict[str, Any] = {"id": r.get("id"), "memory": _memory_label(r), "kind": r.get("kind"),
+                                    "filename": r.get("filename"), "summary": r.get("summary") or ""}
+            if r.get("created_at"):
+                item["created_at"] = r["created_at"]
+            moments = [_moment(m) for m in r.get("moments") or [] if isinstance(m, dict)]
+            if moments:
+                item["moments"] = moments
+            results.append(item)
+        out: dict[str, Any] = {"results": results}
+        unavailable = _unavailable(response)
+        if unavailable:
+            out["unavailable"] = [{"memory": name} for name in unavailable]
+            out["note"] = "These Memories could not be searched, so missing items from them prove nothing."
         return out
 
     def _tool_save(self, client: Any, args: dict[str, Any]) -> dict[str, Any]:
