@@ -20,15 +20,15 @@ classifiers = [
 dependencies = ["httpx>=0.25,<1"]
 
 [project.optional-dependencies]
-# Everything that runs on your machine: the membaseai-core engine (Python 3.12 or 3.13) with every model
+# Everything that runs on your machine: the membase-core engine (Python 3.12 or 3.13) with every model
 # provider (OpenAI, Anthropic, Ollama) and the multimodal parser, plus the MCP library for
 # `membase mcp`. The base install is the hosted client only.
 local = [
-    "membaseai-core[all]>=0.3.7; python_version >= '3.12'",
+    "membase-core[all]>=0.3.7; python_version >= '3.12'",
     "mcp>=1.0,<2",
 ]
 media = [
-    "membaseai-core[all,media]>=0.3.7; python_version >= '3.12'",
+    "membase-core[all,media]>=0.3.7; python_version >= '3.12'",
     "mcp>=1.0,<2",
 ]
 
