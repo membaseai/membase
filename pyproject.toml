@@ -1,5 +1,5 @@
 [project]
-name = "membaseai"
+name = "membase-ai"
 dynamic = ["version"]
 description = "Membase SDK: the memory layer for AI agents, hosted or on your machine. Python client, CLI and MCP server."
 readme = "README.md"

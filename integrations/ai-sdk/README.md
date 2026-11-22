@@ -68,7 +68,7 @@ twice.
 
 ## Local memory
 
-Point the tools at a Membase engine on your machine (`pip install 'membaseai[local]'`, then
+Point the tools at a Membase engine on your machine (`pip install 'membase-ai[local]'`, then
 `membase --local serve`):
 
 ```ts
