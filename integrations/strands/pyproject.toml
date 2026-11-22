@@ -26,11 +26,11 @@ classifiers = [
 # injection, get_tools). The offline tests pass on 1.45.0, 1.50.0, 1.55.0 and 1.61.1.
 dependencies = [
     "strands-agents>=1.45.0",
-    "membaseai>=0.4.0",
+    "membase-ai>=0.4.0",
 ]
 
 [project.optional-dependencies]
-local = ["membaseai[local]>=0.4.0"]
+local = ["membase-ai[local]>=0.4.0"]
 
 [project.urls]
 Homepage = "https://membase.com"

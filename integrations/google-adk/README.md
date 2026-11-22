@@ -109,6 +109,6 @@ MembaseMemoryService(local="~/.membase")
 
 ## Requirements
 
-Python 3.10+, `google-adk` and `membaseai` 0.4.0 or newer.
+Python 3.10+, `google-adk` and `membase-ai` 0.4.0 or newer.
 
 MIT licensed.

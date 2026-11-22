@@ -33,7 +33,7 @@ export MEMBASE_API_KEY=mbk_...
 A **Read** key can search and read the profile (if its owner ticked it); saving needs a
 **Read & write** key with a write target (a key that reaches one Memory saves there; one that
 reaches several is refused, and nothing is written somewhere by guess). One key is one
-person's account. Requires `membaseai>=0.4.0`.
+person's account. Requires `membase-ai>=0.4.0`.
 
 ## Retriever
 
@@ -160,7 +160,7 @@ key, your own memory), not a multi-user app.
 
 Local mode keeps each person in their own directory:
 `client_for=lambda uid: Membase(local=f"/data/membase/{uid}")`
-(`pip install 'membaseai[local]'`, Python 3.12+, and an LLM key such as
+(`pip install 'membase-ai[local]'`, Python 3.12+, and an LLM key such as
 `OPENAI_API_KEY`).
 
 ## Configuration

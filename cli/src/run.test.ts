@@ -86,7 +86,7 @@ describe("membase (npm)", () => {
     for (const argv of [["--local", "search", "x"], ["--store", "/tmp/m", "capabilities"], ["serve"], ["mcp"], ["import", "a.json"], ["agent", "skills"], ["media", "add", "a.png"], ["media", "ask", "what?"]]) {
       const h = harness();
       expect(await main(argv, h.io), argv.join(" ")).toBe(2);
-      expect(h.err.join("\n")).toContain("pip install 'membaseai[local]'");
+      expect(h.err.join("\n")).toContain("pip install 'membase-ai[local]'");
       expect(h.calls).toEqual([]);
     }
   });

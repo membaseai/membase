@@ -1,7 +1,7 @@
 """The Membase SDK client built from the provider credentials, and errors a person can act on.
 
 Every network call the plugin makes goes through ``open_client``: the official
-``membaseai`` SDK, pointed at the Membase API (or at another Membase host the
+``membase-ai`` SDK, pointed at the Membase API (or at another Membase host the
 workspace administrator set). The base URL is limited to HTTPS on Membase's own domains so
 the credential form cannot turn the plugin into a request to an arbitrary host.
 """
