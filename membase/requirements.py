@@ -8,7 +8,7 @@ from typing import Callable
 
 from .errors import MembaseError
 
-INSTALL_LOCAL = "pip install 'membaseai[local]'"
+INSTALL_LOCAL = "pip install 'membase-ai[local]'"
 HOSTED_MCP_URL = "https://api.app.membase.com/mcp-http"
 
 

@@ -62,7 +62,7 @@ Run the engine on your machine with the Python package (Python 3.12 or 3.13, wit
 `OPENAI_API_KEY` set for the server) and point the client at it — same methods:
 
 ```bash
-pip install 'membaseai[local]'
+pip install 'membase-ai[local]'
 membase --local serve            # http://127.0.0.1:8787/v1, store under ~/.membase
 ```
 

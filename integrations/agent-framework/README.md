@@ -17,7 +17,7 @@ You need a Membase developer key: in the [Membase app](https://app.membase.com),
 Developer keys**. A *Read* key can search (and read the profile, if its owner ticked it);
 saving needs *Read & write* and a key with a write target: a key that reaches one Memory saves
 there, one that reaches several is refused and nothing is written somewhere by guess. Needs
-`membaseai>=0.4.0`.
+`membase-ai>=0.4.0`.
 
 ## Quick start
 

@@ -373,7 +373,7 @@ class MembaseMemoryProvider(MemoryProvider):
 
     def unavailable_reason(self) -> str:
         if Membase is None:
-            return "the membaseai package is not installed; reinstall the plugin (hermes plugins install unibaseio-membase)"
+            return "the membase-ai package is not installed; reinstall the plugin (hermes plugins install unibaseio-membase)"
         return (f"MEMBASE_API_KEY is not set for this profile: run `hermes memory setup` and paste a developer key "
                 f"from {KEY_URL} (Connect > Developer keys)")
 

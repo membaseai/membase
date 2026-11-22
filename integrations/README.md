@@ -11,14 +11,14 @@ package, tests and README.
 | [`dify/`](dify) | Dify | Dify plugin `unibase/membase` | Dify › Plugins › Marketplace, search Membase (once listed) |
 | [`google-adk/`](google-adk) | Google ADK (Python) | `membase-google-adk` on PyPI | `pip install membase-google-adk` |
 | [`haystack/`](haystack) | Haystack (Python) | `membase-haystack` on PyPI | `pip install membase-haystack` |
-| [`hermes/`](hermes) | Hermes Agent | Hermes plugin `membaseai` | `hermes plugins install membaseai/membase/integrations/hermes` |
+| [`hermes/`](hermes) | Hermes Agent | Hermes plugin `membase-ai` | `hermes plugins install membaseai/membase/integrations/hermes` |
 | [`langchain/`](langchain) | LangChain / LangGraph (Python) | `langchain-membase` on PyPI | `pip install langchain-membase` |
 | [`openclaw/`](openclaw) | OpenClaw | `@unibaseio/membase` on [ClawHub](https://clawhub.ai/unibaseio/plugins/membase) | `openclaw plugins install clawhub:@unibaseio/membase` |
 | [`strands/`](strands) | Strands Agents (Python) | `membase-strands` on PyPI | `pip install membase-strands` |
 
 ## What every integration does the same way
 
-- Uses the official Membase SDK (`membaseai` / `@membaseai/membase`); a key comes from
+- Uses the official Membase SDK (`membase-ai` / `@membaseai/membase`); a key comes from
   **Connect › Developer keys** in the Membase app.
 - **One key is one person's memory.** Where the framework passes a user id, a `client_for`
   hook gives each person their own key (or their own local directory); otherwise the

@@ -3,7 +3,7 @@
 Real packages: unibaseio-membase, membaseai-core (PyPI); @membaseai/membase,
 @membaseai/membase-cli (npm). Each other name installs the real package (alias) or, for a
 project not on the registry (membase-bench), installs nothing and links to it (placeholder).
-PyPI membase-ai / membase-sdk / membase-core get no release: an alias would share their files,
+PyPI membase-sdk / membase-core get no release: an alias would share their files,
 and pip's upgrade would delete them.
 
     python scripts/make_alias_packages.py OUT_DIR
@@ -22,7 +22,7 @@ from pathlib import Path
 VERSION = "0.3.0"  # aliases follow the real packages
 PLACEHOLDER = "0.0.1"
 HOME = "https://membase.com"
-SDK, CORE = "membaseai", "membaseai-core"
+SDK, CORE = "membase-ai", "membaseai-core"
 NPM_SDK, NPM_CLI = "@membaseai/membase", "@membaseai/membase-cli"
 CORE_EXTRAS = ("multimodal", "anthropic", "ollama", "all")
 

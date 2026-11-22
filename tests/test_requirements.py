@@ -30,7 +30,7 @@ def no_engine(monkeypatch):
 
 
 def test_a_local_client_fails_at_construction(no_engine, tmp_path):
-    with pytest.raises(MissingDependencyError, match="membaseai\\[local\\]"):
+    with pytest.raises(MissingDependencyError, match="membase-ai\\[local\\]"):
         Membase(local=tmp_path)
 
 

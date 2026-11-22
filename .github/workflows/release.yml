@@ -1,6 +1,6 @@
 name: Release
 
-# The Python SDK `membaseai` (pure Python, one wheel + sdist) to PyPI through Trusted Publishing:
+# The Python SDK `membase-ai` (pure Python, one wheel + sdist) to PyPI through Trusted Publishing:
 # no token is stored anywhere. PyPI trusts this repository's `release.yml` in the `pypi`
 # environment, configured as the project's trusted publisher on pypi.org.
 #
