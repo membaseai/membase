@@ -2,13 +2,13 @@
 
 ## membase-ai 0.4.1 and @membaseai/vercel-ai-sdk 0.1.0 — package names
 
-- The Python SDK is published as **`membase-ai`** on PyPI again (`pip install membase-ai`). It was
-  `unibaseio-membase` for 0.3–0.4.0, and `membase-ai` was its earlier name (0.2.x). The local
-  engine is **`membaseai-core`** 0.3.7 (was `unibaseio-membase-core`). The import name is still
-  `membase`, so code does not change. Coming from `unibaseio-membase`: run `pip uninstall
-  unibaseio-membase unibaseio-membase-core` first, because both install the same `membase`
-  module. Coming from `membase-ai` 0.2.x: `pip install -U membase-ai`, and note that 0.2 → 0.4 is
-  the 0.4 API.
+- The Python SDK is published as **`membase-ai`** on PyPI again (`pip install membase-ai`; pip
+  reads `membase_ai` and `membase.ai` as the same name). It was `unibaseio-membase` for
+  0.3–0.4.0, and `membase-ai` before that (0.2.x). The local engine is **`membase-core`** 0.3.7
+  again (it was `unibaseio-membase-core` for 0.3.x). The import name is still `membase`, so code
+  does not change. Coming from `unibaseio-membase`: run `pip uninstall unibaseio-membase
+  unibaseio-membase-core` first, because both install the same modules. Coming from
+  `membase-ai` 0.2.x: `pip install -U membase-ai`, and note that 0.2 → 0.4 is the 0.4 API.
 - The Vercel AI SDK tools are now **`@membaseai/vercel-ai-sdk`** on npm. They were
   `@membaseai/membase-ai-sdk`, and `@unibaseio/membase-ai-sdk` before that. The name says which
   framework they are for.

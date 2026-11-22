@@ -1,4 +1,4 @@
-"""Membase on this machine: the hosted memory API answered by the membaseai-core engine."""
+"""Membase on this machine: the hosted memory API answered by the membase-core engine."""
 
 from __future__ import annotations
 

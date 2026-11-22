@@ -1,4 +1,4 @@
-"""The agent protocol's operations on this machine, over the membaseai-core engine."""
+"""The agent protocol's operations on this machine, over the membase-core engine."""
 
 from __future__ import annotations
 

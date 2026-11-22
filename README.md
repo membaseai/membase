@@ -150,4 +150,4 @@ entry, with and without a developer key.
 ## License
 
 MIT; see [LICENSE](https://github.com/membaseai/membase/blob/main/LICENSE). `membase-ai[local]` also
-installs membaseai-core, the compiled engine, under its own Unibase license.
+installs membase-core, the compiled engine, under its own Unibase license.
