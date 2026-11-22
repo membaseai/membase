@@ -7,7 +7,7 @@ import { ConfirmationRequiredError, Membase, MembaseError, type MembaseOptions }
 
 export const VERSION = "0.4.0";
 
-const INSTALL_LOCAL = "pip install 'unibaseio-membase[local]'";
+const INSTALL_LOCAL = "pip install 'membaseai[local]'";
 const HOSTED_MCP_URL = "https://api.app.membase.com/mcp-http";
 
 type Client = Pick<Membase, "add" | "search" | "ask" | "capabilities" | "documents" | "memories" | "profileFacts" | "media">;

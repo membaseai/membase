@@ -62,7 +62,7 @@ def test_npm_cli_against_local_server(tmp_path):
         r = membase("search", "x", "--container", "default")
         assert r.returncode == 2, r.stdout + r.stderr
         r = membase("serve")
-        assert r.returncode == 2 and "unibaseio-membase[local]" in r.stderr
+        assert r.returncode == 2 and "membaseai[local]" in r.stderr
     finally:
         httpd.shutdown()
         httpd.backend.close()

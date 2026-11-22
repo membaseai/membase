@@ -1,0 +1,43 @@
+name: Release
+
+# The Python SDK `membaseai` (pure Python, one wheel + sdist) to PyPI through Trusted Publishing:
+# no token is stored anywhere. PyPI trusts this repository's `release.yml` in the `pypi`
+# environment, configured as the project's trusted publisher on pypi.org.
+#
+# Release: bump membase/_version.py, merge, then push the matching tag (`v0.4.1`).
+
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tag matches the package version
+        run: |
+          v=$(python -c "import re;print(re.search(r'\"(.+)\"', open('membase/_version.py').read()).group(1))")
+          test "v$v" = "${GITHUB_REF_NAME}" || { echo "tag ${GITHUB_REF_NAME} != package version v$v"; exit 1; }
+      - run: python -m pip install --upgrade build
+      - run: python -m build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1

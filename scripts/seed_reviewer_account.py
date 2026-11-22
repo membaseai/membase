@@ -7,7 +7,7 @@ to find.
 Run with a developer key from the test account (Connect -> developer key, reaching ONE
 Memory, with write access and "Your profile" ticked):
 
-    MEMBASE_API_KEY=mbk_... uv run --with 'unibaseio-membase>=0.4' python scripts/seed_reviewer_account.py
+    MEMBASE_API_KEY=mbk_... uv run --with 'membaseai>=0.4' python scripts/seed_reviewer_account.py
 
 Safe to re-run: documents are keyed by custom_id and profile facts are deduplicated.
 Everything here is invented (persona "Alex Rivera", "Northwind Studio").

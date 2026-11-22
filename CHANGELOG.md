@@ -1,5 +1,20 @@
 # Changelog
 
+## membaseai 0.4.1 and @membaseai/vercel-ai-sdk 0.1.0 — new package names
+
+- The Python SDK is now **`membaseai`** on PyPI (`pip install membaseai`, was `unibaseio-membase`).
+  Its local engine is **`membaseai-core`** 0.3.7 (was `unibaseio-membase-core`). The import name
+  is still `membase`, so code does not change. Both old and new install the same `membase`
+  module: run `pip uninstall unibaseio-membase unibaseio-membase-core` before installing.
+- The Vercel AI SDK tools are now **`@membaseai/vercel-ai-sdk`** on npm. They were
+  `@membaseai/membase-ai-sdk`, and `@unibaseio/membase-ai-sdk` before that. The name says which
+  framework they are for.
+- The integrations (`langchain`, `haystack`, `google-adk`, `agent-framework`, `strands`, `dify`,
+  `hermes`) depend on `membaseai` from their next release. The Hermes provider keeps its name
+  `unibaseio-membase` and its settings file, so existing setups keep working.
+- Releases of `membaseai` are published by `.github/workflows/release.yml` on a `v*` tag, through
+  PyPI Trusted Publishing.
+
 ## npm packages move to the @membaseai scope
 
 `@membaseai/membase` 0.4.0, `@membaseai/membase-cli` 0.4.0 and `@membaseai/membase-ai-sdk` 0.1.0

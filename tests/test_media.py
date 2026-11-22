@@ -13,7 +13,7 @@ from types import SimpleNamespace
 import numpy as np
 import pytest
 
-pytest.importorskip("membase_media", reason="needs the media extra (unibaseio-membase-core[media])")
+pytest.importorskip("membase_media", reason="needs the media extra (membaseai-core[media])")
 
 from membase import (  # noqa: E402
     BadRequestError,

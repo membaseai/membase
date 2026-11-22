@@ -11,7 +11,7 @@ from types import SimpleNamespace
 import httpx
 import pytest
 
-pytest.importorskip("membase_core", reason="needs the local extra (unibaseio-membase-core, Python 3.12+)")
+pytest.importorskip("membase_core", reason="needs the local extra (membaseai-core, Python 3.12+)")
 
 from membase import (  # noqa: E402
     BadRequestError,

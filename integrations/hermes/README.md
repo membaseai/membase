@@ -28,7 +28,7 @@ hermes plugins install membaseai/membase/integrations/hermes
 hermes memory setup unibaseio-membase                        # paste the key, pick the options below
 ```
 
-`hermes plugins install` installs the Python dependency (`unibaseio-membase`) into Hermes'
+`hermes plugins install` installs the Python dependency (`membaseai`) into Hermes'
 environment and can set `memory.provider: unibaseio-membase` for you. Start a new session
 afterwards.
 `hermes memory status` shows the settings in use (no network call, never the key).
@@ -153,7 +153,7 @@ runs no shell command, sends no telemetry and has no self-update code.
 cd hermes
 git clone --depth 1 https://github.com/NousResearch/hermes-agent .cache/hermes-agent
 uv venv --python 3.14 .venv
-uv pip install --python .venv/bin/python -e .cache/hermes-agent "unibaseio-membase>=0.4.0,<0.5" pytest
+uv pip install --python .venv/bin/python -e .cache/hermes-agent "membaseai>=0.4.0,<0.5" pytest
 .venv/bin/python -m pytest -q                                   # offline
 .venv/bin/hermes plugins validate . --install-deps              # the catalog CI gate (run on a clean checkout)
 MEMBASE_API_KEY=mbk_... .venv/bin/python examples/live_smoke.py   # real API, read-only (--write saves one note)

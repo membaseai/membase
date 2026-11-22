@@ -37,12 +37,12 @@ Exit codes: 0 done, 1 the API refused (a removal without `--confirm` prints what
 exits 1), 2 a usage error.
 
 The commands and flags are those of the `membase` command in the Python package
-[unibaseio-membase](https://pypi.org/project/unibaseio-membase/), which also runs memory on your
+[membaseai](https://pypi.org/project/membaseai/), which also runs memory on your
 machine (`--local`), imports chat exports, learns from agent traces, and serves `membase serve` and
 `membase mcp`:
 
 ```bash
-pip install 'unibaseio-membase[local]'
+pip install 'membaseai[local]'
 ```
 
 Install one of the two: both put a `membase` command on your PATH. For code, use the SDK

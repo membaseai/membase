@@ -104,7 +104,7 @@ class MembaseMemoryService(BaseMemoryService):
             writes go to their own memory. Takes precedence over ``client``.
         api_key: A Membase developer key (Read, or Read & write to save).
         base_url: Overrides ``https://api.app.membase.com`` (or ``MEMBASE_BASE_URL``).
-        local: A directory for local mode (``pip install 'unibaseio-membase[local]'``).
+        local: A directory for local mode (``pip install 'membaseai[local]'``).
         max_search_results: Passages per search. Defaults to 5.
         recall_timeout: Budget in seconds for :meth:`search_memory`. ``None`` waits for
             the SDK's own timeout. Defaults to 8 s.

@@ -49,5 +49,5 @@ Call the `get_capabilities` tool: it lists the Memories this connection may use 
 may do. An empty list of memories means none is switched on for this connection yet; the user
 switches one on in the Membase app under Connect.
 
-Do not install the Python or npm package for this: `unibaseio-membase` and `@membaseai/membase`
+Do not install the Python or npm package for this: `membaseai` and `@membaseai/membase`
 are SDKs for writing code against Membase, not the MCP server.
