@@ -1,5 +1,5 @@
 [project]
-name = "unibaseio-membase"
+name = "membaseai"
 dynamic = ["version"]
 description = "Membase SDK: the memory layer for AI agents, hosted or on your machine. Python client, CLI and MCP server."
 readme = "README.md"
@@ -20,15 +20,15 @@ classifiers = [
 dependencies = ["httpx>=0.25,<1"]
 
 [project.optional-dependencies]
-# Everything that runs on your machine: the unibaseio-membase-core engine (Python 3.12 or 3.13) with every model
+# Everything that runs on your machine: the membaseai-core engine (Python 3.12 or 3.13) with every model
 # provider (OpenAI, Anthropic, Ollama) and the multimodal parser, plus the MCP library for
 # `membase mcp`. The base install is the hosted client only.
 local = [
-    "unibaseio-membase-core[all]>=0.3.6; python_version >= '3.12'",
+    "membaseai-core[all]>=0.3.7; python_version >= '3.12'",
     "mcp>=1.0,<2",
 ]
 media = [
-    "unibaseio-membase-core[all,media]>=0.3.6; python_version >= '3.12'",
+    "membaseai-core[all,media]>=0.3.7; python_version >= '3.12'",
     "mcp>=1.0,<2",
 ]
 

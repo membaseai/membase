@@ -1,7 +1,7 @@
 {
   "name": "membase-npm",
   "private": true,
-  "description": "npm workspaces: @membaseai/membase (typescript/), @membaseai/membase-cli (cli/) and @membaseai/membase-ai-sdk (integrations/ai-sdk/).",
+  "description": "npm workspaces: @membaseai/membase (typescript/), @membaseai/membase-cli (cli/) and @membaseai/vercel-ai-sdk (integrations/ai-sdk/).",
   "workspaces": [
     "typescript",
     "cli",

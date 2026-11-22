@@ -146,7 +146,7 @@ The key is never logged.
 ## Compatibility
 
 Python 3.10+, `strands-agents>=1.45.0` (the first release with `strands.memory`) and
-`unibaseio-membase>=0.4.0`. The offline tests pass on strands-agents 1.45.0, 1.50.0, 1.55.0
+`membaseai>=0.4.0`. The offline tests pass on strands-agents 1.45.0, 1.50.0, 1.55.0
 and 1.61.1.
 
 ## Development

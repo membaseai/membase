@@ -1,6 +1,6 @@
 # Membase local engine
 
-`pip install 'unibaseio-membase[local]'` runs the memory on your machine. For the hosted API and the
+`pip install 'membaseai[local]'` runs the memory on your machine. For the hosted API and the
 methods, see the [Membase docs](https://docs.membase.com/build/reference/sdk-quickstart/).
 
 ## What the local engine stores
@@ -62,7 +62,7 @@ names the Memory writes go to (see above).
 
 ## Media memory
 
-`pip install 'unibaseio-membase[media]'` adds photos, videos and audio recordings, kept apart from
+`pip install 'membaseai[media]'` adds photos, videos and audio recordings, kept apart from
 documents and memories: they have their own routes, search and ask, and `/v1/search` and `/v1/ask`
 do not read them. Listing, reading, searching and deleting are the hosted media routes; storing a
 file and asking are local only (in process, or `membase serve`). It needs only a model provider

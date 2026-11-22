@@ -10,7 +10,7 @@ no memory plugin type, so memory is offered as tools with provider credentials.
 
 ## How it is built
 
-- Every Membase call goes through the official SDK (`unibaseio-membase`, `from membase import
+- Every Membase call goes through the official SDK (`membaseai`, `from membase import
   Membase`), installed by Dify from `plugin/requirements.txt`. Its only runtime dependency is
   `httpx`, which `dify_plugin` already needs, so the SDK costs the package nothing.
 - `plugin/membase_dify/client.py` builds the client from the workspace credentials (API key,

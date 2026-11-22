@@ -1,4 +1,4 @@
-"""The agent protocol's operations on this machine, over the unibaseio-membase-core engine."""
+"""The agent protocol's operations on this machine, over the membaseai-core engine."""
 
 from __future__ import annotations
 
@@ -135,7 +135,7 @@ class LocalBackend:
 
                     raise LocalError(
                         422, "capability_unavailable",
-                        local_unavailable() or "local memory needs the engine: pip install 'unibaseio-membase[local]'",
+                        local_unavailable() or "local memory needs the engine: pip install 'membaseai[local]'",
                     ) from e
                 d = self._dir(cid)
                 d.mkdir(parents=True, exist_ok=True)

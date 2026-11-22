@@ -1,6 +1,6 @@
 # Membase for the Vercel AI SDK
 
-`@membaseai/membase-ai-sdk` gives an [AI SDK](https://ai-sdk.dev) agent your
+`@membaseai/vercel-ai-sdk` gives an [AI SDK](https://ai-sdk.dev) agent your
 [Membase](https://membase.com) account as its long-term memory, as three tools:
 
 | Tool | What it does |
@@ -16,7 +16,7 @@ There is no delete or forget tool. Removing memory stays in the Membase app.
 Works with AI SDK 6 and 7, with any model provider.
 
 ```bash
-npm install @membaseai/membase-ai-sdk ai zod
+npm install @membaseai/vercel-ai-sdk ai zod
 export MEMBASE_API_KEY="mbk_…"     # Connect › Developer keys in the Membase app
 ```
 
@@ -28,7 +28,7 @@ A **Read** key can search and, with Profile ticked, read the profile. Saving nee
 ```ts
 import { ToolLoopAgent } from "ai";
 import { openai } from "@ai-sdk/openai";
-import { membaseTools } from "@membaseai/membase-ai-sdk";
+import { membaseTools } from "@membaseai/vercel-ai-sdk";
 
 const agent = new ToolLoopAgent({
   model: openai("gpt-5"),
@@ -68,7 +68,7 @@ twice.
 
 ## Local memory
 
-Point the tools at a Membase engine on your machine (`pip install 'unibaseio-membase[local]'`, then
+Point the tools at a Membase engine on your machine (`pip install 'membaseai[local]'`, then
 `membase --local serve`):
 
 ```ts

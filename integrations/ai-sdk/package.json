@@ -1,5 +1,5 @@
 {
-  "name": "@membaseai/membase-ai-sdk",
+  "name": "@membaseai/vercel-ai-sdk",
   "version": "0.1.0",
   "description": "Membase memory for the Vercel AI SDK: search, save and profile tools over the user's Membase account.",
   "license": "MIT",

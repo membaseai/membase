@@ -103,7 +103,7 @@ class MembaseMemoryStore(MemoryStore):
             ``api_key`` / ``base_url`` / ``local`` (or ``MEMBASE_API_KEY``).
         api_key: A Membase developer key (Read, or Read & write to save).
         base_url: Overrides ``https://api.app.membase.com`` (or ``MEMBASE_BASE_URL``).
-        local: A directory for local mode (``pip install 'unibaseio-membase[local]'``).
+        local: A directory for local mode (``pip install 'membaseai[local]'``).
         name: Store name the manager and its tools use. Defaults to ``"membase"``.
         description: Shown to the model in the manager's search tool description.
         max_search_results: Default passages per search when the caller passes none.

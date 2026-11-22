@@ -8,7 +8,7 @@ from typing import Callable
 
 from ..requirements import INSTALL_LOCAL, local_unavailable
 
-INSTALL_MEDIA = "pip install 'unibaseio-membase[media]'"
+INSTALL_MEDIA = "pip install 'membaseai[media]'"
 
 
 def media_unavailable(

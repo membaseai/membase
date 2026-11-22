@@ -133,6 +133,6 @@ store = MembaseMemoryStore(local="~/.membase")
 
 ## Requirements
 
-Python 3.10+, `haystack-ai` and `unibaseio-membase` 0.4.0 or newer.
+Python 3.10+, `haystack-ai` and `membaseai` 0.4.0 or newer.
 
 MIT licensed.
