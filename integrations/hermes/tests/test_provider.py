@@ -35,7 +35,14 @@ def test_hermes_discovers_and_loads_the_user_plugin(home, load):
     provider = load()
     assert type(provider).__name__ == "MembaseMemoryProvider"
     assert provider.name == "unibaseio-membase"
-    assert {s["name"] for s in provider.get_tool_schemas()} == {"membase_search", "membase_save", "membase_profile"}
+    # membase_search_media arrived with 0.4.0, alongside media Memories: the same recall
+    # reaches a Memory's photos and videos and hands back what each matching one shows.
+    assert {s["name"] for s in provider.get_tool_schemas()} == {
+        "membase_search",
+        "membase_search_media",
+        "membase_save",
+        "membase_profile",
+    }
 
 
 def test_unavailable_without_a_key(home, load, monkeypatch):
@@ -197,7 +204,10 @@ def test_trivial_prompts_do_not_search(manager, fake):
         def _emit_status(self, _text):
             pass
 
-    assert _memory_turn_start_and_prefetch(Agent(), "thanks!") == ""
+    # Hermes passes the turn's author and the previous message through as well
+    # (turn_context._memory_turn_start_and_prefetch). Neither matters here: the point
+    # is that a trivial prompt is not searched at all.
+    assert _memory_turn_start_and_prefetch(Agent(), "thanks!", None, "") == ""
     assert fake.calls("POST", "/v1/search") == []
 
 
