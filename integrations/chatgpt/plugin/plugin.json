@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Long-term memory for you and your AIs: search your Membase memories and read your profile from ChatGPT.",
   "author": {
-    "name": "Unibase",
+    "name": "Membase",
     "email": "support@membase.com",
     "url": "https://membase.com"
   },
@@ -17,7 +17,7 @@
         "displayName": "Membase",
         "shortDescription": "One memory for every AI",
         "longDescription": "Membase is long-term memory that you own and every AI you use can share. Bring your material into Membase (files, Notion pages, web pages saved with the browser extension) and it learns what matters into Memories. Connect ChatGPT and it can draw on that memory in any conversation.\n\nWith Membase in ChatGPT you can:\n- Search your memories in natural language and get back the relevant passages, each labelled with the Memory it came from.\n- See what your memory has learned most recently, and open any single fact.\n- Let ChatGPT read your profile (name, role, lasting preferences) so its answers fit you, if you allow profile access.\n\nYou stay in control. When you connect, you choose exactly which Memories ChatGPT may read and whether it may see your profile, and you can turn them off or disconnect at any time under Connect in Membase. The connection is read-only: ChatGPT cannot change or delete anything in your memory. The same memory works in Claude, Cursor, Codex and other MCP clients, so what you teach once carries across your tools.",
-        "developerName": "Unibase",
+        "developerName": "Membase",
         "category": "Productivity",
         "capabilities": [
           "Search your Membase memories in natural language, with the source Memory of each result",

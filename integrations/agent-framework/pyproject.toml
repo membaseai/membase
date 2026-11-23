@@ -10,7 +10,7 @@ readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.10"
-authors = [{ name = "Unibase" }]
+authors = [{ name = "Membase" }]
 keywords = ["agent-framework", "microsoft-agent-framework", "membase", "memory", "long-term-memory", "context-provider", "agents"]
 classifiers = [
     "Development Status :: 4 - Beta",

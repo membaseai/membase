@@ -132,4 +132,4 @@ sent, what Membase stores, and how to delete it.
 
 ## Support
 
-support@unibase.com · https://github.com/membaseai/membase/issues
+support@membase.com · https://github.com/membaseai/membase/issues

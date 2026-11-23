@@ -85,7 +85,7 @@ description = {json.dumps(summary)}
 readme = "README.md"
 requires-python = "{requires_python}"
 license = {{ text = "MIT" }}
-authors = [{{ name = "Unibase" }}]
+authors = [{{ name = "Membase" }}]
 dependencies = {toml_list(deps)}
 {"[project.optional-dependencies]" + chr(10) + extra_lines if extras else ""}
 [project.urls]

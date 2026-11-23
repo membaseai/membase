@@ -158,5 +158,5 @@ key (its "model" is a stand-in that calls the tools) and writes only with
 - Membase docs: <https://docs.membase.com>
 - Report an issue: <https://github.com/membaseai/membase/issues/new>
 
-A community integration maintained by Unibase; not affiliated with or endorsed by Microsoft.
+A community integration maintained by Membase; not affiliated with or endorsed by Microsoft.
 MIT licence.
