@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "membase-google-adk"
-version = "0.1.0"
+version = "0.1.1"
 description = "Membase memory for Google ADK: a memory service with time-boxed recall and deliberate search/save/profile tools."
 readme = "README.md"
 requires-python = ">=3.10"
