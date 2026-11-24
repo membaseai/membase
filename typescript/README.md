@@ -14,7 +14,7 @@
   <a href="https://docs.membase.com">Docs</a> ·
   <a href="https://app.membase.com">Web app</a> ·
   <a href="https://github.com/membaseai/membase">GitHub</a> ·
-  <a href="https://discord.gg/nB9EfPGsSf">Discord</a>
+  <a href="https://discord.gg/G6frJAJxdV">Discord</a>
 </p>
 
 Memory hosted in your Membase account, or local through the Python package.

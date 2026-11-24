@@ -5,7 +5,7 @@ description = "Membase SDK: the memory layer for AI agents, hosted or on your ma
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
-authors = [{ name = "Unibase" }]
+authors = [{ name = "Membase" }]
 keywords = ["membase", "memory", "agent-memory", "llm-memory", "long-term-memory", "llm", "ai", "agents", "mcp"]
 classifiers = [
     "License :: OSI Approved :: MIT License",

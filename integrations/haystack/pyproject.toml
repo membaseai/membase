@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE"]
-authors = [{ name = "Unibase" }]
+authors = [{ name = "Membase" }]
 keywords = ["haystack", "haystack-ai", "agents", "memory", "membase", "long-term-memory"]
 classifiers = [
     "Development Status :: 4 - Beta",

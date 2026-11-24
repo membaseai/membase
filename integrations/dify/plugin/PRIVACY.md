@@ -2,7 +2,7 @@
 
 Last updated: 2026-10-20
 
-This plugin connects Dify apps to Membase, a hosted memory service operated by Unibase. It
+This plugin connects Dify apps to Membase, a hosted memory service operated by Membase. It
 reads from and writes to one Membase account: the account that owns the API key a Dify
 workspace administrator enters in the plugin's credentials.
 
@@ -53,5 +53,5 @@ the next request.
 
 ## Contact
 
-Privacy questions and requests: support@unibase.com.
+Privacy questions and requests: support@membase.com.
 Source code: https://github.com/membaseai/membase/tree/main/integrations/dify

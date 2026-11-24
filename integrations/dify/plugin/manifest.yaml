@@ -3,7 +3,7 @@ type: plugin
 author: unibase
 name: membase
 repo: https://github.com/membaseai/membase/tree/main/integrations/dify
-contact: support@unibase.com
+contact: support@membase.com
 label:
   en_US: Membase
   zh_Hans: Membase
