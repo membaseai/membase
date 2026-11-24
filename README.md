@@ -150,4 +150,4 @@ entry, with and without a developer key.
 ## License
 
 MIT; see [LICENSE](https://github.com/membaseai/membase/blob/main/LICENSE). `membase-ai[local]` also
-installs membase-core, the compiled engine, under its own license.
+installs membase-core, the compiled engine, under its own proprietary license (Membase Core License).
