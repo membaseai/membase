@@ -22,7 +22,8 @@ Hermes profile to it:
 - sync_turn: opt-in capture of the user's own words, once per completed turn (``capture_turns``,
   default off), primary agent only. The assistant's reply is never sent.
 
-Settings live in $HERMES_HOME/unibaseio-membase.json; the key (MEMBASE_API_KEY) and the optional
+Settings live in $HERMES_HOME/membase-ai.json (read from the former unibaseio-membase.json until
+the first save writes the new one); the key (MEMBASE_API_KEY) and the optional
 MEMBASE_BASE_URL are read through the Hermes secret scope of the active profile. No request names a
 Memory: a search covers every Memory the key reaches, a save lands in the key's write target.
 The only network peer is the Membase API (https://api.app.membase.com unless overridden).
@@ -55,8 +56,11 @@ except ImportError:  # pragma: no cover - exercised only before the dependency i
 
 logger = logging.getLogger(__name__)
 
-PLUGIN_VERSION = "0.4.0"
-CONFIG_FILE = "unibaseio-membase.json"
+PLUGIN_VERSION = "0.5.0"
+CONFIG_FILE = "membase-ai.json"
+# The settings file of releases before 0.5.0, when the plugin id was `unibaseio-membase`. Read while
+# CONFIG_FILE does not exist, never written and never deleted: an install still on the old id reads it.
+LEGACY_CONFIG_FILE = "unibaseio-membase.json"
 KEY_URL = "https://app.membase.com"  # Connect > Developer keys
 # The plugin's own default: it does not depend on which SDK release is installed.
 DEFAULT_BASE_URL = "https://api.app.membase.com"
@@ -203,11 +207,18 @@ def _read_json_or_empty(path: Path) -> dict[str, Any]:
     return read_json_or_empty(path)
 
 
+def config_path(hermes_home: str) -> Path:
+    """The settings file in use: membase-ai.json, else the pre-0.5.0 unibaseio-membase.json if only it exists."""
+    path = Path(hermes_home) / CONFIG_FILE
+    legacy = Path(hermes_home) / LEGACY_CONFIG_FILE
+    return legacy if not path.exists() and legacy.exists() else path
+
+
 def load_config(hermes_home: Optional[str]) -> dict[str, Any]:
-    """Defaults overlaid with $hermes_home/unibaseio-membase.json; unparseable values fall back to defaults."""
+    """Defaults overlaid with the settings file (:func:`config_path`); unparseable values fall back to defaults."""
     raw: dict[str, Any] = {}
     if hermes_home:
-        raw = _read_json_or_empty(Path(hermes_home) / CONFIG_FILE)
+        raw = _read_json_or_empty(config_path(hermes_home))
     return _normalize(raw)
 
 
@@ -451,7 +462,7 @@ class MembaseMemoryProvider(MemoryProvider):
 
     @property
     def name(self) -> str:
-        return "unibaseio-membase"
+        return "membase-ai"
 
     def is_available(self) -> bool:
         if Membase is None:
@@ -461,12 +472,10 @@ class MembaseMemoryProvider(MemoryProvider):
         return bool(_secret("MEMBASE_API_KEY"))
 
     def unavailable_reason(self) -> str:
-        # Two different names on purpose: `membase-ai` is the PyPI distribution (renamed
-        # from `unibaseio-membase` on 2026-11-22), while `unibaseio-membase` is still this
-        # plugin's id in `plugin.yaml` and what `hermes plugins install` takes. Do not
-        # "unify" them until the plugin id is migrated too.
+        # `membase-ai` is both the PyPI distribution of the SDK and, since 0.5.0, this plugin's id
+        # (formerly `unibaseio-membase`), so one name covers the package and the install command.
         if Membase is None:
-            return "the membase-ai package is not installed; reinstall the plugin (hermes plugins install unibaseio-membase)"
+            return "the membase-ai package is not installed; reinstall the plugin (hermes plugins install membase-ai)"
         return (f"MEMBASE_API_KEY is not set for this profile: run `hermes memory setup` and paste a developer key "
                 f"from {KEY_URL} (Connect > Developer keys)")
 
@@ -488,8 +497,9 @@ class MembaseMemoryProvider(MemoryProvider):
     def save_config(self, values: dict[str, Any], hermes_home: str) -> None:
         from utils import atomic_json_write, read_json_or_empty
 
+        # Start from the file in use, so the first save after the rename carries the old settings over.
+        current = read_json_or_empty(config_path(hermes_home))
         path = Path(hermes_home) / CONFIG_FILE
-        current = read_json_or_empty(path)
         for key, value in (values or {}).items():
             if key in DEFAULTS:
                 current[key] = value
@@ -508,7 +518,7 @@ class MembaseMemoryProvider(MemoryProvider):
             "recall_budget_seconds": cfg["recall_budget_seconds"],
             "capture_turns": "on" if cfg["capture_turns"] else "off",
             "tools": "off" if cfg["tools"] is False else "on",
-            "config_file": str(Path(get_hermes_home()) / CONFIG_FILE),
+            "config_file": str(config_path(str(get_hermes_home()))),
         }
 
     # ---- lifecycle ----------------------------------------------------------------------------
@@ -521,7 +531,7 @@ class MembaseMemoryProvider(MemoryProvider):
 
             home = str(get_hermes_home())
         self._cfg = load_config(home)
-        if "container" in _read_json_or_empty(Path(home) / CONFIG_FILE) or _secret("MEMBASE_CONTAINER"):
+        if "container" in _read_json_or_empty(config_path(home)) or _secret("MEMBASE_CONTAINER"):
             logger.warning("Membase: the `container` setting (and MEMBASE_CONTAINER) is no longer used: searches "
                            "cover every Memory the key reaches and saves land in the key's write target, which "
                            "the owner sets by giving the key one Memory under Connect > Developer keys")

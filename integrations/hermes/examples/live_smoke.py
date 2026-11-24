@@ -55,7 +55,7 @@ def main() -> int:
         plugin.register(ctx)
         provider = ctx.provider
         if provider is None or not provider.is_available():
-            print("The unibaseio-membase provider is not available:", provider and provider.unavailable_reason())
+            print("The membase-ai provider is not available:", provider and provider.unavailable_reason())
             return 1
         mgr = MemoryManager()
         mgr.add_provider(provider)
