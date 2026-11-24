@@ -50,7 +50,7 @@ describe("package metadata", () => {
   });
 
   it("package.json carries the ClawHub compatibility metadata", () => {
-    expect(pkg.name).toBe("@unibaseio/membase");
+    expect(pkg.name).toBe("@membaseai/openclaw");
     expect(pkg.openclaw.extensions).toEqual(["./dist/index.js"]);
     expect(pkg.openclaw.compat.pluginApi).toMatch(/^>=2026\.10\.1/);
     expect(pkg.openclaw.build.openclawVersion).toBeTruthy();

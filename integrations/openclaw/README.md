@@ -1,6 +1,6 @@
 # Membase for OpenClaw
 
-`@unibaseio/membase` (on ClawHub) makes your [Membase](https://membase.com) account the memory of an
+`@membaseai/openclaw` (on ClawHub) makes your [Membase](https://membase.com) account the memory of an
 [OpenClaw](https://openclaw.ai) agent. It owns OpenClaw's memory slot, recalls what you told
 other AIs before each turn, and gives the agent three tools:
 
@@ -28,11 +28,14 @@ from them is never allowed.
 Requires OpenClaw 2026.10.1 or newer (Node 24.16+ or 26.1+).
 
 ```bash
-openclaw plugins install clawhub:@unibaseio/membase
+openclaw plugins install clawhub:@membaseai/openclaw
 ```
 
-Keep the `clawhub:` prefix. Without it OpenClaw looks on npm, where `@unibaseio/membase` is the
-Membase TypeScript SDK, not this plugin.
+Keep the `clawhub:` prefix: the plugin is published on ClawHub, not npm, and
+`@membaseai/membase` on npm is the Membase TypeScript SDK, not this plugin.
+
+Installed it before 2026-11-25 as `clawhub:@unibaseio/membase`? That listing no longer gets
+updates. Uninstall it and install `clawhub:@membaseai/openclaw`.
 
 OpenClaw asks you to accept the plugin's capabilities on install. In a script, pass
 `--accept-capabilities`. Installing it selects it for the memory slot.

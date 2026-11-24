@@ -1,6 +1,6 @@
 identity:
   name: search_memory
-  author: unibase
+  author: membase
   label:
     en_US: Search memory
     zh_Hans: 搜索记忆

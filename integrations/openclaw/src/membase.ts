@@ -1,6 +1,6 @@
 /** The Membase side: clients, time budgets, error wording and how recall reads to a model. */
-// The SDK is installed under the alias `membase-sdk` (npm:@unibaseio/membase): this plugin's own
-// package name on ClawHub is @unibaseio/membase, and a package cannot import itself by name.
+// The SDK is installed under the alias `membase-sdk` (npm:@membaseai/membase). The alias dates from
+// when this plugin's own ClawHub name was the SDK's old npm name, and a package cannot import itself.
 import {
   APIConnectionError,
   APITimeoutError,
