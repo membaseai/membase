@@ -1,5 +1,18 @@
 # Changelog
 
+## Hermes plugin membase-ai 0.5.0 — the plugin's new id
+
+- The Hermes memory provider's id is now **`membase-ai`** (it was `unibaseio-membase`):
+  `hermes plugins install membase-ai`, `memory.provider: membase-ai`. The Python project in
+  `integrations/hermes` is `membase-ai-hermes`. Behaviour and tools are unchanged from 0.4.0.
+- Hermes finds a memory provider by the folder it is installed in and has no alias for a renamed
+  plugin, so an existing `unibaseio-membase` install keeps working as it is but receives no further
+  updates. Moving over is `hermes plugins install membase-ai --enable`, then
+  `hermes plugins remove unibaseio-membase` (see the plugin's README).
+- The settings file is `$HERMES_HOME/membase-ai.json`. While it does not exist the plugin reads the
+  former `unibaseio-membase.json`, and the first save writes those settings to the new file; the
+  old file is never changed.
+
 ## membase-ai 0.4.1 and @membaseai/vercel-ai-sdk 0.1.0 — package names
 
 - The Python SDK is published as **`membase-ai`** on PyPI again (`pip install membase-ai`; pip

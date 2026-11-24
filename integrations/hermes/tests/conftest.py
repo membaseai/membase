@@ -1,7 +1,7 @@
 """Test harness: a real Hermes checkout, the plugin installed as a user plugin, and a fake Membase API.
 
 Hermes is imported from the virtualenv (``uv pip install -e .cache/hermes-agent``); the plugin is
-installed the way ``hermes plugins install`` leaves it, as ``$HERMES_HOME/plugins/unibaseio-membase``, and
+installed the way ``hermes plugins install`` leaves it, as ``$HERMES_HOME/plugins/membase-ai``, and
 loaded by Hermes' own memory-provider loader. Every HTTP request any ``httpx.Client`` makes is
 answered by an ``httpx.MockTransport``, so the real SDK runs end to end without a network.
 """
@@ -124,8 +124,8 @@ def home(tmp_path, monkeypatch) -> Path:
     """A Hermes profile home with the plugin installed as a user plugin and selected as memory.provider."""
     h = tmp_path / "hermes-home"
     (h / "plugins").mkdir(parents=True)
-    (h / "plugins" / "unibaseio-membase").symlink_to(PLUGIN_ROOT, target_is_directory=True)
-    (h / "config.yaml").write_text("memory:\n  provider: unibaseio-membase\n", encoding="utf-8")
+    (h / "plugins" / "membase-ai").symlink_to(PLUGIN_ROOT, target_is_directory=True)
+    (h / "config.yaml").write_text("memory:\n  provider: membase-ai\n", encoding="utf-8")
     monkeypatch.setenv("HERMES_HOME", str(h))
     monkeypatch.setenv("MEMBASE_API_KEY", KEY)
     monkeypatch.delenv("MEMBASE_BASE_URL", raising=False)
@@ -139,8 +139,8 @@ def load():
     def _load():
         from plugins.memory import load_memory_provider
 
-        provider = load_memory_provider("unibaseio-membase")
-        assert provider is not None, "Hermes did not load the unibaseio-membase provider from $HERMES_HOME/plugins"
+        provider = load_memory_provider("membase-ai")
+        assert provider is not None, "Hermes did not load the membase-ai provider from $HERMES_HOME/plugins"
         return provider
 
     return _load

@@ -1,4 +1,4 @@
-"""The unibaseio-membase provider, loaded and driven through Hermes' own memory plumbing."""
+"""The membase-ai provider, loaded and driven through Hermes' own memory plumbing."""
 
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ def tool(mgr, name: str, **args: Any) -> dict[str, Any]:
 
 
 def write_settings(home: Path, **values: Any) -> None:
-    (home / "unibaseio-membase.json").write_text(json.dumps(values), encoding="utf-8")
+    (home / "membase-ai.json").write_text(json.dumps(values), encoding="utf-8")
 
 
 # ---- registration and availability --------------------------------------------------------------
@@ -30,11 +30,11 @@ def test_hermes_discovers_and_loads_the_user_plugin(home, load):
     from plugins.memory import discover_memory_providers
 
     listed = {name: available for name, _desc, available in discover_memory_providers()}
-    assert listed.get("unibaseio-membase") is True
+    assert listed.get("membase-ai") is True
 
     provider = load()
     assert type(provider).__name__ == "MembaseMemoryProvider"
-    assert provider.name == "unibaseio-membase"
+    assert provider.name == "membase-ai"
     # membase_search_media arrived with 0.4.0, alongside media Memories: the same recall
     # reaches a Memory's photos and videos and hands back what each matching one shows.
     assert {s["name"] for s in provider.get_tool_schemas()} == {
@@ -355,13 +355,33 @@ def test_config_schema_and_save_config(home, load):
 
     provider.save_config({"container": "Travel", "recall_budget_seconds": "5", "capture_turns": "on",
                           "api_key": "must-not-be-written"}, str(home))
-    path = home / "unibaseio-membase.json"
+    path = home / "membase-ai.json"
     saved = json.loads(path.read_text())
     assert saved == {"capture_turns": True, "recall_budget_seconds": 5.0}
     assert stat.S_IMODE(path.stat().st_mode) == 0o600
     status = provider.get_status_config({})
     assert status["api_key"] == "set" and status["capture_turns"] == "on"
     assert KEY not in json.dumps(status)
+
+
+def test_settings_of_the_former_unibaseio_membase_id_carry_over(home, load):
+    # Before 0.5.0 the plugin id, and so its settings file, was `unibaseio-membase`.
+    legacy = home / "unibaseio-membase.json"
+    legacy.write_text(json.dumps({"capture_turns": True, "recall_limit": 9}), encoding="utf-8")
+    provider = load()
+    status = provider.get_status_config({})
+    assert status["capture_turns"] == "on" and status["config_file"] == str(legacy)
+
+    # The first save writes membase-ai.json, carrying the old settings; the old file is left as it was.
+    provider.save_config({"recall_budget_seconds": "5"}, str(home))
+    assert json.loads((home / "membase-ai.json").read_text()) == {
+        "capture_turns": True, "recall_limit": 9, "recall_budget_seconds": 5.0}
+    assert json.loads(legacy.read_text()) == {"capture_turns": True, "recall_limit": 9}
+
+    # From then on membase-ai.json is the one in use, even where the two disagree.
+    write_settings(home, capture_turns=False)
+    status = provider.get_status_config({})
+    assert status["capture_turns"] == "off" and status["config_file"] == str(home / "membase-ai.json")
 
 
 def test_shutdown_closes_the_clients(manager):
@@ -407,7 +427,7 @@ def test_client_for_without_a_user_id_uses_no_ones_memory(manager, fake, load):
 
 
 def user_store_provider(home: Path) -> None:
-    (home / "config.yaml").write_text("memory:\n  provider: unibaseio-membase\n  user_store: provider\n",
+    (home / "config.yaml").write_text("memory:\n  provider: membase-ai\n  user_store: provider\n",
                                       encoding="utf-8")
 
 
@@ -480,7 +500,7 @@ def test_runs_in_the_plugin_host(home, load):
     """With plugins.isolation: host the provider's code runs in Hermes' plugin-host process."""
     from agent.memory_manager import MemoryManager
 
-    (home / "config.yaml").write_text("memory:\n  provider: unibaseio-membase\nplugins:\n  isolation: host\n", encoding="utf-8")
+    (home / "config.yaml").write_text("memory:\n  provider: membase-ai\nplugins:\n  isolation: host\n", encoding="utf-8")
     provider = load()
     assert type(provider).__name__.startswith("Hosted")  # a proxy; the instance lives in the host
     assert provider.is_available()

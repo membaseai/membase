@@ -22,17 +22,37 @@ profile instead of USER.md.
 ## Install
 
 ```bash
-hermes plugins install unibaseio-membase                     # once listed in the Hermes plugin catalog
-# before that, straight from the repository:
+hermes plugins install membase-ai                            # from the Hermes plugin catalog
+# or straight from the repository:
 hermes plugins install membaseai/membase/integrations/hermes
 
-hermes memory setup unibaseio-membase                        # paste the key, pick the options below
+hermes memory setup membase-ai                               # paste the key, pick the options below
 ```
 
 `hermes plugins install` installs the Python dependency (`membase-ai`) into Hermes'
-environment and can set `memory.provider: unibaseio-membase` for you. Start a new session
+environment and can set `memory.provider: membase-ai` for you. Start a new session
 afterwards.
 `hermes memory status` shows the settings in use (no network call, never the key).
+
+### Coming from `unibaseio-membase`
+
+Until 0.5.0 this plugin's id was `unibaseio-membase`. Hermes finds a memory provider by the name
+of the folder it is installed in (`$HERMES_HOME/plugins/<id>`), and it has no alias for a renamed
+plugin, so the new id cannot answer to the old one. An existing install is not touched by the
+rename: `memory.provider: unibaseio-membase` keeps working with the version you have, but that
+install receives no further updates (`hermes plugins update` reports its catalog entry as
+unavailable and keeps the pin). To move to `membase-ai`:
+
+```bash
+hermes plugins install membase-ai --enable   # sets memory.provider: membase-ai (replacing unibaseio-membase)
+hermes plugins remove unibaseio-membase      # once a new session recalls as before
+```
+
+The key stays where it was (`MEMBASE_API_KEY` in the profile's `.env`). Your settings carry over
+too: while `membase-ai.json` does not exist, the plugin reads `unibaseio-membase.json`, and the
+first `hermes memory setup membase-ai` writes them, with your changes, to `membase-ai.json`. The old
+file is never changed or deleted. Removing `unibaseio-membase` *before* switching clears
+`memory.provider`, which leaves the profile with no external memory until you select `membase-ai`.
 
 Get a key in the Membase app at **Connect › Developer keys**. Choose **Read & write** if the
 agent should be able to save. A **Read** key can search and read the profile but cannot save. Tick
@@ -46,16 +66,17 @@ the plugin reads it through Hermes' per-profile secret scope, never from a file 
 | Setting | Where | Default | Meaning |
 |---|---|---|---|
 | `MEMBASE_API_KEY` | `.env` (secret) | required | The developer key: one person's account |
-| `base_url` / `MEMBASE_BASE_URL` | `unibaseio-membase.json` / `.env` | `https://api.app.membase.com` | API endpoint |
-| `recall_budget_seconds` | `unibaseio-membase.json` | `8` | How long the per-turn recall may take (0.5–8) |
-| `capture_turns` | `unibaseio-membase.json` | `false` | Save the user's own words from every completed turn as a note |
-| `auto_recall` | `unibaseio-membase.json` | `true` | Search before each turn |
-| `recall_limit` | `unibaseio-membase.json` | `5` | Passages injected per turn |
-| `recall_max_chars` | `unibaseio-membase.json` | `4000` | Upper bound on the injected block |
-| `recall_mode` / `MEMBASE_RECALL_MODE` | `unibaseio-membase.json` / `.env` | `full` | `fast`: one round of retrieval and no model call; at least 10 passages and 8,000 characters handed to the agent, whose own model judges them |
-| `tools` / `MEMBASE_TOOLS` | `unibaseio-membase.json` / `.env` | `on` | `off`: no `membase_*` tools; memory is left to recall before each turn (and Hermes's own memory), so no turn spends a model call deciding whether to search or save |
+| `base_url` / `MEMBASE_BASE_URL` | `membase-ai.json` / `.env` | `https://api.app.membase.com` | API endpoint |
+| `recall_budget_seconds` | `membase-ai.json` | `8` | How long the per-turn recall may take (0.5–8) |
+| `capture_turns` | `membase-ai.json` | `false` | Save the user's own words from every completed turn as a note |
+| `auto_recall` | `membase-ai.json` | `true` | Search before each turn |
+| `recall_limit` | `membase-ai.json` | `5` | Passages injected per turn |
+| `recall_max_chars` | `membase-ai.json` | `4000` | Upper bound on the injected block |
+| `recall_mode` / `MEMBASE_RECALL_MODE` | `membase-ai.json` / `.env` | `full` | `fast`: one round of retrieval and no model call; at least 10 passages and 8,000 characters handed to the agent, whose own model judges them |
+| `tools` / `MEMBASE_TOOLS` | `membase-ai.json` / `.env` | `on` | `off`: no `membase_*` tools; memory is left to recall before each turn (and Hermes's own memory), so no turn spends a model call deciding whether to search or save |
 
-The settings file is `$HERMES_HOME/unibaseio-membase.json` (mode 0600); it never holds the key.
+The settings file is `$HERMES_HOME/membase-ai.json` (mode 0600); it never holds the key. Until it
+exists, the `unibaseio-membase.json` of releases before 0.5.0 is read in its place.
 When a setting appears in both places, the value in the file wins.
 
 No setting picks a Memory. Recall and `membase_search` cover every Memory the key reaches; saves
@@ -157,7 +178,8 @@ The plugin sends:
 - the user's own words from each completed turn, only when `capture_turns` is on (never the
   assistant's reply).
 
-The only local state is `$HERMES_HOME/unibaseio-membase.json`. The plugin starts no background process,
+The only local state is `$HERMES_HOME/membase-ai.json` (read from the pre-0.5.0
+`unibaseio-membase.json` while it does not exist). The plugin starts no background process,
 runs no shell command, sends no telemetry and has no self-update code.
 
 ## Development
