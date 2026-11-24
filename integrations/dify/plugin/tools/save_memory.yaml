@@ -1,6 +1,6 @@
 identity:
   name: save_memory
-  author: unibase
+  author: membase
   label:
     en_US: Save memory
     zh_Hans: 保存记忆

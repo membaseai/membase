@@ -1,6 +1,6 @@
 {
-  "name": "@unibaseio/membase",
-  "version": "0.2.0",
+  "name": "@membaseai/openclaw",
+  "version": "0.2.1",
   "description": "Membase memory for OpenClaw: your Membase account as the agent's memory slot, with search, save and profile tools.",
   "license": "MIT",
   "type": "module",
@@ -42,8 +42,8 @@
     "prepack": "npm run build"
   },
   "dependencies": {
-    "typebox": "1.3.34",
-    "membase-sdk": "npm:@unibaseio/membase@^0.4.0"
+    "membase-sdk": "npm:@membaseai/membase@^0.4.0",
+    "typebox": "1.3.34"
   },
   "peerDependencies": {
     "openclaw": ">=2026.10.1"

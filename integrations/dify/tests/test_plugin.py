@@ -134,7 +134,7 @@ def test_manifest_points_at_privacy_icon_and_declares_domains():
     import yaml
 
     manifest = yaml.safe_load((PLUGIN_DIR / "manifest.yaml").read_text())
-    assert manifest["author"] == "unibase" and manifest["name"] == "membase"
+    assert manifest["author"] == "membase" and manifest["name"] == "membase"
     assert (PLUGIN_DIR / manifest["privacy"]).is_file()
     assert (PLUGIN_DIR / "_assets" / manifest["icon"]).is_file()
     assert "api.app.membase.com" in manifest["network"]["domains"]

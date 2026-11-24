@@ -1,6 +1,6 @@
 version: 0.1.1
 type: plugin
-author: unibase
+author: membase
 name: membase
 repo: https://github.com/membaseai/membase/tree/main/integrations/dify
 contact: support@membase.com

@@ -2,7 +2,7 @@
   "id": "membase",
   "name": "Membase",
   "description": "Your Membase account as the agent's memory: time-boxed recall before each turn, plus membase_search, membase_save (only when asked) and membase_profile tools. One API key is one person's memory.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "kind": "memory",
   "categories": [
     "memory"
