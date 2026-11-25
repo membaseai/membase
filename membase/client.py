@@ -135,7 +135,7 @@ class Membase:
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Accept": "*/*" if raw else "application/json",
-            "User-Agent": f"unibaseio-membase-python/{__version__}",
+            "User-Agent": f"membase-python/{__version__}",
             **(headers or {}),
         }
         attempt = 0

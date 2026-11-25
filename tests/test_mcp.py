@@ -53,12 +53,14 @@ def test_stdio_server_serves_the_protocol_tools(tmp_path):
     assert forget.isError and "memory not found" in forget.content[0].text
 
 
-def test_automem_tools_appear_with_a_wallet_key(tmp_path):
+def test_a_wallet_key_in_the_environment_adds_no_tools(tmp_path, monkeypatch):
+    # The wallet-keyed auto-memory tools were removed; a leftover MEMBASE_PRIVATE_KEY must not
+    # bring anything back.
     from membase import Membase
     from membase.mcp import build_server
 
+    monkeypatch.setenv("MEMBASE_PRIVATE_KEY", "0x" + "11" * 32)
     m = Membase(local=tmp_path / "s")
-    server = build_server(m, private_key="0x" + "11" * 32)
-    names = {t.name for t in asyncio.run(server.list_tools())}
-    assert names == _local_tools() | {"automem_save", "automem_list", "automem_fetch", "automem_delete"}
+    names = {t.name for t in asyncio.run(build_server(m).list_tools())}
+    assert names == _local_tools()
     m.close()
