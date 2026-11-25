@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import asyncio
-import os
 from typing import Any, Callable
 
 from ..client import Membase
@@ -127,7 +126,7 @@ def _tool_specs(client: Callable[[], Membase]) -> list[tuple[str, str, Callable[
     ]
 
 
-def build_server(client: Membase | Callable[[], Membase], private_key: str | None = None) -> Any:
+def build_server(client: Membase | Callable[[], Membase]) -> Any:
     """The FastMCP server."""
     from ..requirements import require_mcp
 
@@ -149,11 +148,6 @@ def build_server(client: Membase | Callable[[], Membase], private_key: str | Non
         tool.__name__ = name
         mcp.add_tool(tool, name=name, description=description)
 
-    key = private_key if private_key is not None else (os.environ.get("MEMBASE_PRIVATE_KEY") or None)
-    if key:
-        from .automem_tools import register_automem_tools
-
-        register_automem_tools(mcp, key)
     return mcp
 
 

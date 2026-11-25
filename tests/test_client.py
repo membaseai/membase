@@ -67,7 +67,7 @@ def test_the_sdk_retries_429_and_5xx_then_raises_the_last_answer():
     assert c.capabilities()["actions"] == ["search"]
     assert len(seen) == 3
     assert seen[0].headers["authorization"] == "Bearer mbk_test"
-    assert seen[0].headers["user-agent"].startswith("unibaseio-membase-python/")
+    assert seen[0].headers["user-agent"].startswith("membase-python/")
 
     answers[:] = [
         httpx.Response(

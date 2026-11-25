@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- The `automem_*` MCP tools are removed, together with the `MEMBASE_PRIVATE_KEY` setting that
+  turned them on and the `private_key` argument of `membase.mcp.build_server`. They backed up a
+  client's notes to the retired Membase Protocol hub under a wallet key, outside the account's
+  Membase memory. `membase mcp` serves the same memory tools as before. A leftover
+  `MEMBASE_PRIVATE_KEY` is ignored.
+- The SDK's `User-Agent` is now `membase-python/<version>` (was `unibaseio-membase-python/…`).
+
 ## Hermes plugin membase-ai 0.5.0 — the plugin's new id
 
 - The Hermes memory provider's id is now **`membase-ai`** (it was `unibaseio-membase`):
