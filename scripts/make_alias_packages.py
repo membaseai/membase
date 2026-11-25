@@ -1,6 +1,6 @@
 """Write the alias and placeholder packages that hold the Membase names on PyPI and npm.
 
-Real packages: unibaseio-membase, membase-core (PyPI); @membaseai/membase,
+Real packages: membase-ai, membase-core (PyPI); @membaseai/membase,
 @membaseai/membase-cli (npm). Each other name installs the real package (alias) or, for a
 project not on the registry (membase-bench), installs nothing and links to it (placeholder).
 PyPI membase-sdk gets no release: an alias would share their files,
@@ -19,8 +19,8 @@ import shutil
 import sys
 from pathlib import Path
 
-VERSION = "0.3.0"  # aliases follow the real packages
-PLACEHOLDER = "0.0.1"
+VERSION = "0.4.0"  # aliases follow the real packages (npm @membaseai/membase 0.4.0)
+PLACEHOLDER = "0.0.2"
 HOME = "https://membase.com"
 SDK, CORE = "membase-ai", "membase-core"
 NPM_SDK, NPM_CLI = "@membaseai/membase", "@membaseai/membase-cli"
