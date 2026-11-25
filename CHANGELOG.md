@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## membase-ai 0.4.2 — no wallet tools, Membase on PyPI
 
 - The `automem_*` MCP tools are removed, together with the `MEMBASE_PRIVATE_KEY` setting that
   turned them on and the `private_key` argument of `membase.mcp.build_server`. They backed up a
@@ -8,6 +8,9 @@
   Membase memory. `membase mcp` serves the same memory tools as before. A leftover
   `MEMBASE_PRIVATE_KEY` is ignored.
 - The SDK's `User-Agent` is now `membase-python/<version>` (was `unibaseio-membase-python/…`).
+- The PyPI page now shows this repository's metadata and README: author Membase, links to
+  `github.com/membaseai/membase`, and the current Discord and X links. 0.4.1's page still showed
+  the Unibase author and old links. No API changes besides the MCP removal above.
 
 ## Hermes plugin membase-ai 0.5.0 — the plugin's new id
 
